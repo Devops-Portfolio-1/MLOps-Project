@@ -6,4 +6,4 @@ joblib
 xgboost
 mlflow
 pydantic
-
+seaborn
