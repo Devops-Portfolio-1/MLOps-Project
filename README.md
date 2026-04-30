@@ -12,7 +12,7 @@ This project predicts diabetes risk from patient health indicators using a noteb
 - Best model bundle: best_diabetes_model.pkl (model + scaler + selected features)
 - FastAPI app uses the same preprocessing steps as the notebook
 - MLflow model registry: diabetes_best_model
-- UI available at / (index.html)
+- UI available at / (index.html).
 
 ## Quick Start
 
