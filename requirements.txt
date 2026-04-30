@@ -3,3 +3,7 @@ uvicorn[standard]
 scikit-learn
 pandas
 joblib
+xgboost
+mlflow
+pydantic
+

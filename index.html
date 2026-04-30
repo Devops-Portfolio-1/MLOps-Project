@@ -163,7 +163,8 @@
       display: block;
     }
 
-    input {
+    input,
+    select {
       width: 100%;
       padding: 11px 12px;
       border-radius: var(--radius-md);
@@ -173,7 +174,8 @@
       transition: border-color 180ms ease, box-shadow 180ms ease;
     }
 
-    input:focus {
+    input:focus,
+    select:focus {
       outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 4px rgba(14, 122, 95, 0.18);
@@ -276,19 +278,29 @@
       <form id="predict-form">
         <div class="row">
           <div>
-            <label for="pregnancies">Pregnancies</label>
-            <input id="pregnancies" type="number" min="0" step="1" required />
+            <label for="gender">Gender</label>
+            <select id="gender" required>
+              <option value="Female">Female</option>
+              <option value="Male">Male</option>
+            </select>
           </div>
           <div>
-            <label for="glucose">Glucose</label>
-            <input id="glucose" type="number" min="0" step="0.1" required />
+            <label for="smokingHistory">Smoking History</label>
+            <select id="smokingHistory" required>
+              <option value="No Info">No Info</option>
+              <option value="never">Never</option>
+              <option value="not current">Not current</option>
+              <option value="ever">Ever</option>
+              <option value="former">Former</option>
+              <option value="current">Current</option>
+            </select>
           </div>
         </div>
 
         <div class="row">
           <div>
-            <label for="bloodPressure">Blood Pressure</label>
-            <input id="bloodPressure" type="number" min="0" step="0.1" required />
+            <label for="age">Age</label>
+            <input id="age" type="number" min="0" step="0.1" required />
           </div>
           <div>
             <label for="bmi">BMI</label>
@@ -296,9 +308,32 @@
           </div>
         </div>
 
-        <div>
-          <label for="age">Age</label>
-          <input id="age" type="number" min="1" step="1" required />
+        <div class="row">
+          <div>
+            <label for="hba1c">HbA1c Level</label>
+            <input id="hba1c" type="number" min="0" step="0.01" required />
+          </div>
+          <div>
+            <label for="glucose">Blood Glucose Level</label>
+            <input id="glucose" type="number" min="0" step="1" required />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="hypertension">Hypertension</label>
+            <select id="hypertension" required>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
+          <div>
+            <label for="heartDisease">Heart Disease</label>
+            <select id="heartDisease" required>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </div>
         </div>
 
         <button type="submit">Predict Risk</button>
@@ -318,11 +353,14 @@
       result.textContent = "Running prediction...";
 
       const payload = {
-        Pregnancies: Number(document.getElementById("pregnancies").value),
-        Glucose: Number(document.getElementById("glucose").value),
-        BloodPressure: Number(document.getElementById("bloodPressure").value),
-        BMI: Number(document.getElementById("bmi").value),
-        Age: Number(document.getElementById("age").value)
+        gender: document.getElementById("gender").value,
+        age: Number(document.getElementById("age").value),
+        hypertension: Number(document.getElementById("hypertension").value),
+        heart_disease: Number(document.getElementById("heartDisease").value),
+        bmi: Number(document.getElementById("bmi").value),
+        HbA1c_level: Number(document.getElementById("hba1c").value),
+        blood_glucose_level: Number(document.getElementById("glucose").value),
+        smoking_history: document.getElementById("smokingHistory").value
       };
 
       try {
@@ -340,11 +378,14 @@
 
         const data = await response.json();
         const diabetic = data.diabetic === true;
+        const probability = typeof data.probability === "number"
+          ? ` Confidence: ${(data.probability * 100).toFixed(1)}%.`
+          : "";
 
         result.classList.add("success");
         result.textContent = diabetic
-          ? "Prediction: Positive risk signal for diabetes."
-          : "Prediction: No diabetes risk signal detected.";
+          ? `Prediction: Positive risk signal for diabetes.${probability}`
+          : `Prediction: No diabetes risk signal detected.${probability}`;
       } catch (error) {
         result.classList.add("error");
         result.textContent = `Error: ${error.message}`;

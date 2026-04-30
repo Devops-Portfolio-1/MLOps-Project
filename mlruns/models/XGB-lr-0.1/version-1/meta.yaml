@@ -1,0 +1,16 @@
+creation_timestamp: 1777558820189
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1777558820189
+model_id: m-567203c0ebeb42f3bef81912042978cd
+name: XGB-lr-0.1
+run_id: 45eb880cc7224076b7e7f044b3421de6
+run_link: null
+source: models:/m-567203c0ebeb42f3bef81912042978cd
+status: READY
+status_message: null
+storage_location: file:c:/Users/Shalindra/Documents/DevOps/DevOps Projects/ML Ops/mlops-project/mlruns/836258302877673245/models/m-567203c0ebeb42f3bef81912042978cd/artifacts
+user_id: null
+version: 1
+workspace: default

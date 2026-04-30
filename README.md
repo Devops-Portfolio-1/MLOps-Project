@@ -1,23 +1,20 @@
-# 🩺 Diabetes Prediction Model (FastAPI + Docker + K8s)
+# Diabetes Prediction Model (FastAPI + MLflow + Docker + K8s)
 
-This project helps me to learn **Building and Deploying an ML Model** using a simple and real-world use case: predicting whether a person is diabetic based on health metrics. We’ll go from:
+This project predicts diabetes risk from patient health indicators using a notebook-driven ML pipeline and a FastAPI inference service. It includes EDA, feature engineering, model comparison, MLflow tracking, and deployment artifacts.
 
-- ✅ Model Training
-- ✅ Building the Model locally
-- ✅ API Deployment with FastAPI
-- ✅ Applying MLOps best practices
-- ✅ Dockerization
-- ✅ Kubernetes Deployment
+## Dataset
 
----
+- Source file: [diabetes_prediction_dataset.csv](https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset)
 
-## 📊 Problem Statement
+## Current Project Status
 
-Diabetes is a chronic condition that affects millions worldwide. Early prediction can lead to better management and prevention. This project uses a dataset of health indicators to train a model that predicts diabetes risk, making it easier for healthcare providers to identify at-risk patients.
+- Notebook pipeline: diabetes_ml_pipeline.ipynb (EDA, preprocessing, feature engineering, CV, model selection)
+- Best model bundle: best_diabetes_model.pkl (model + scaler + selected features)
+- FastAPI app uses the same preprocessing steps as the notebook
+- MLflow model registry: diabetes_best_model
+- UI available at / (index.html)
 
----
-
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Clone the Repo
 
@@ -28,64 +25,83 @@ cd mlops-project
 
 ### 2. Create Virtual Environment
 
-```
+```bash
 python3 -m venv .mlops
 source .mlops/bin/activate
 ```
 
+```powershell
+python -m venv .mlops
+.\.mlops\Scripts\Activate.ps1
+```
+
 ### 3. Install Dependencies
 
-```
+```bash
 pip install -r requirements.txt
 ```
 
-## Train the Model
+### 4. Run the Notebook Pipeline
 
-```
-python train.py
-```
+Open diabetes_ml_pipeline.ipynb and run all cells. This will:
 
-## Run the API Locally
+- Train and evaluate models
+- Track experiments in MLflow
+- Register the best model as diabetes_best_model
+- Export best_diabetes_model.pkl
 
-```
+### 5. Run the API Locally
+
+```bash
 uvicorn main:app --reload
 ```
 
-### Sample Input for /predict 
+The UI is available at http://127.0.0.1:8000
 
-Option 1 : If using Postman with POST request, use this JSON body:
-```
+### Sample Input for /predict
+
+```json
 {
-  "Pregnancies": 2,
-  "Glucose": 130,
-  "BloodPressure": 70,
-  "BMI": 28.5,
-  "Age": 45
+  "gender": "Female",
+  "age": 45,
+  "hypertension": 1,
+  "heart_disease": 0,
+  "bmi": 28.5,
+  "HbA1c_level": 6.5,
+  "blood_glucose_level": 140,
+  "smoking_history": "former"
 }
 ```
-option 2 : Enter the above values in the UI itself 
+
+Response example:
+
+```json
+{
+  "diabetic": false,
+  "probability": 0.0639
+}
+```
+
+## MLflow UI
+
+```bash
+mlflow ui --backend-store-uri mlruns
+```
 
 ## Dockerize the API
 
-### Build the Docker Image
-
-```
+```bash
 docker build -t diabetes-prediction-model .
-```
-
-### Run the Container
-
-```
 docker run -p 8000:8000 diabetes-prediction-model
 ```
 
 ## Deploy to Kubernetes
 
-```
-kubectl apply -f diabetes-prediction-model-deployment.yaml
+```bash
+kubectl apply -f k8s-deploy.yml
 ```
 
-🙌 Credits
+## Credits
 
-Created by `Shalindra Perera`
+Created by Shalindra Perera
 

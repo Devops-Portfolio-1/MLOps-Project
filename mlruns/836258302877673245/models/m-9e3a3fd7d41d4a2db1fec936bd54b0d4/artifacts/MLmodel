@@ -1,0 +1,22 @@
+artifact_path: file:c:/Users/Shalindra/Documents/DevOps/DevOps Projects/ML Ops/mlops-project/mlruns/836258302877673245/models/m-9e3a3fd7d41d4a2db1fec936bd54b0d4/artifacts
+flavors:
+  python_function:
+    data: model.ubj
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.xgboost
+    python_version: 3.13.1
+  xgboost:
+    code: null
+    data: model.ubj
+    model_class: xgboost.sklearn.XGBClassifier
+    model_format: ubj
+    xgb_version: 3.2.0
+mlflow_version: 3.11.1
+model_id: m-9e3a3fd7d41d4a2db1fec936bd54b0d4
+model_size_bytes: 257170
+model_uuid: m-9e3a3fd7d41d4a2db1fec936bd54b0d4
+prompts: null
+run_id: 6746c5653deb43369e0dd53b09079769
+utc_time_created: '2026-04-30 11:09:53.897291'

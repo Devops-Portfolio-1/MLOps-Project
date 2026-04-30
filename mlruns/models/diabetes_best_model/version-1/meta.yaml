@@ -1,0 +1,16 @@
+creation_timestamp: 1777557980294
+current_stage: None
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1777557980294
+model_id: m-355ba16b69c441d4bc7733ceccaa74fb
+name: diabetes_best_model
+run_id: d9551ebbcce747309310517b3759be0d
+run_link: null
+source: models:/m-355ba16b69c441d4bc7733ceccaa74fb
+status: READY
+status_message: null
+storage_location: file:c:/Users/Shalindra/Documents/DevOps/DevOps Projects/ML Ops/mlops-project/mlruns/836258302877673245/models/m-355ba16b69c441d4bc7733ceccaa74fb/artifacts
+user_id: null
+version: 1
+workspace: default

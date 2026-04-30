@@ -1,0 +1,14 @@
+artifact_uri: file:c:/Users/Shalindra/Documents/DevOps/DevOps Projects/ML Ops/mlops-project/mlruns/836258302877673245/90e2a2c2fac54408995a7c55638738de/artifacts
+end_time: 1777547386030
+entry_point_name: ''
+experiment_id: '836258302877673245'
+lifecycle_stage: active
+run_id: 90e2a2c2fac54408995a7c55638738de
+run_name: XGBoost_lr_0.05
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1777547379651
+status: 3
+tags: []
+user_id: Shalindra

@@ -1,0 +1,8 @@
+artifact_location: file:c:/Users/Shalindra/Documents/DevOps/DevOps Projects/ML Ops/mlops-project/mlruns/836258302877673245
+creation_time: 1777547233466
+experiment_id: '836258302877673245'
+last_update_time: 1777547233466
+lifecycle_stage: active
+name: diabetes_prediction
+trace_location: null
+workspace: default
