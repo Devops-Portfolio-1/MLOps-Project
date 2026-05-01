@@ -4,16 +4,18 @@ name: Build and Push Docker Image
   push:
     branches:
       - main
+    
 
 permissions:
   contents: read
 
 env:
-  IMAGE_NAME: shalindra936/diabetes-prediction-model
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}
   IMAGE_TAG: ${{ github.run_number }}
 
 jobs:
   build-and-push:
+    environment: DOCKERHUB_USERNAME
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
