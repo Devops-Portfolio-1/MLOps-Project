@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 env:
-  IMAGE_NAME: ${{ env.DOCKERHUB_USERNAME }}
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}
   IMAGE_REPO: diabetes-prediction-model
   IMAGE_TAG: ${{ github.run_number }}
 
