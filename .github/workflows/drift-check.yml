@@ -14,7 +14,8 @@ permissions:
   contents: read
 
 env:
-  DRIFT_DATA_PATH: diabetes_prediction_dataset.csv
+  BASELINE_DATA_PATH: diabetes_prediction_dataset.csv
+  DRIFT_DATA_PATH: diabetes_prediction_dataset_drift.csv
   DRIFT_BASELINE_PATH: drift/baseline_stats.json
   DRIFT_REPORT_PATH: drift/drift_report.json
   DRIFT_REPORT_HTML_PATH: drift/drift_report.html
@@ -42,7 +43,7 @@ jobs:
           set -euo pipefail
           if [ ! -f "${DRIFT_BASELINE_PATH}" ]; then
             python scripts/build_baseline.py \
-              --data "${DRIFT_DATA_PATH}" \
+              --data "${BASELINE_DATA_PATH}" \
               --output "${DRIFT_BASELINE_PATH}"
           fi
 
