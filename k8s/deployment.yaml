@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: diabetes-api
+  labels:
+    app: diabetes-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: diabetes-api
+  template:
+    metadata:
+      labels:
+        app: diabetes-api
+    spec:
+      containers:
+      - name: diabetes-api
+        image: shalindra936/diabetes-prediction-model:7
+        ports:
+        - containerPort: 8000
+        imagePullPolicy: Always
+
