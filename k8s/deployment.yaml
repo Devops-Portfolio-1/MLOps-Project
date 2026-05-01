@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: diabetes-api
-        image: shalindra936/diabetes-prediction-model:7
+        image: shalindra936/diabetes-prediction-model:21
         ports:
         - containerPort: 8000
         imagePullPolicy: Always
