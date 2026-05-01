@@ -1,0 +1,81 @@
+name: Drift Check
+
+# This workflow performs a data drift check by comparing the current dataset against a baseline. It generates a report and emails it to the specified recipient.
+"on":
+  workflow_dispatch:
+
+# Optional schedule (uncomment to enable daily run)
+# "on":
+#   schedule:
+#     - cron: "0 3 * * *"
+#   workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DRIFT_DATA_PATH: diabetes_prediction_dataset.csv
+  DRIFT_BASELINE_PATH: drift/baseline_stats.json
+  DRIFT_REPORT_PATH: drift/drift_report.json
+  DRIFT_REPORT_HTML_PATH: drift/drift_report.html
+  DRIFT_PSI_THRESHOLD: "0.2"
+
+jobs:
+  drift-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build baseline if missing
+        run: |
+          set -euo pipefail
+          if [ ! -f "${DRIFT_BASELINE_PATH}" ]; then
+            python scripts/build_baseline.py \
+              --data "${DRIFT_DATA_PATH}" \
+              --output "${DRIFT_BASELINE_PATH}"
+          fi
+
+      - name: Run drift check
+        run: |
+          set -euo pipefail
+          python scripts/drift_check.py \
+            --baseline "${DRIFT_BASELINE_PATH}" \
+            --data "${DRIFT_DATA_PATH}" \
+            --threshold "${DRIFT_PSI_THRESHOLD}" \
+            --report "${DRIFT_REPORT_PATH}" \
+            --html "${DRIFT_REPORT_HTML_PATH}"
+
+      - name: Upload drift report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: drift-report
+          path: |
+            drift/drift_report.json
+            drift/drift_report.html
+          if-no-files-found: ignore
+
+      - name: Email drift report
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "${{ github.repository }} drift check: ${{ job.status }}"
+          to: ${{ secrets.SMTP_USERNAME }}
+          from: ${{ secrets.SMTP_USERNAME }}
+          body: "Drift check for ${{ github.sha }} completed with status: ${{ job.status }}. See attached report."
+          attachments: drift/drift_report.json, drift/drift_report.html

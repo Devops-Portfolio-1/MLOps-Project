@@ -101,6 +101,54 @@ docker run -p 8000:8000 diabetes-prediction-model
 kubectl apply -f k8s-deploy.yml
 ```
 
+## Model Drift Monitoring
+
+The drift monitoring setup adds a scheduled workflow and two helper scripts to detect data drift using PSI (Population Stability Index).
+
+### Workflow: drift-check.yml
+
+Runs daily (and on manual dispatch) to compute drift against a baseline and upload a JSON report artifact.
+
+Key points:
+- Reads recent data from `diabetes_prediction_dataset.csv`.
+- Uses `drift/baseline_stats.json` as the baseline.
+- Fails the workflow when any feature PSI >= 0.2.
+- Uploads `drift/drift_report.json` as an artifact for inspection.
+
+### Script: scripts/build_baseline.py
+
+Builds the baseline statistics from a CSV file and writes `drift/baseline_stats.json`.
+
+What it does:
+- Excludes the target column (`diabetes`) by default.
+- Creates numeric bins and distribution counts for PSI.
+- Stores categorical distributions as normalized counts.
+
+Run once to create a stable baseline:
+
+```bash
+python scripts/build_baseline.py --data diabetes_prediction_dataset.csv --output drift/baseline_stats.json
+```
+
+### Script: scripts/drift_check.py
+
+Compares the latest data to the baseline using PSI and exits with a non-zero status when drift is detected.
+
+What it does:
+- Computes PSI for each numeric and categorical feature.
+- Prints a per-feature PSI summary to the logs.
+- Writes a report JSON when `--report` is provided.
+
+Example run:
+
+```bash
+python scripts/drift_check.py \
+  --baseline drift/baseline_stats.json \
+  --data diabetes_prediction_dataset.csv \
+  --threshold 0.2 \
+  --report drift/drift_report.json
+```
+
 ## Credits
 
 Created by Shalindra Perera ✨
