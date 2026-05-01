@@ -4,6 +4,9 @@ name: Build and Push Docker Image
   push:
     branches:
       - main
+    paths:
+      - 'Dockerfile'
+      - '.github/workflows/dockerhub-publish.yml'
     
 
 permissions:
