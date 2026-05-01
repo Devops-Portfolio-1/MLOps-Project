@@ -1,4 +1,10 @@
+import sys
 import time
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(PROJECT_ROOT))
+
 from main import DiabetesInput, build_features, model
 
 # hasttr() means the model has a predict method, which is essential for making predictions. This test ensures that the model artifact was loaded correctly and is ready for inference.
