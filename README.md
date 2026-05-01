@@ -16,7 +16,7 @@ This project predicts diabetes risk from patient health indicators using a noteb
 
 ## Quick Start
 
-### 1. Clone the Repo
+### 1. Clone the Repo L
 
 ```bash
 git clone https://github.com/Devops-Portfolio-1/MLOps-Project.git
