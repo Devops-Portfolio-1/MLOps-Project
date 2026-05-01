@@ -6,3 +6,4 @@ pandas
 joblib
 xgboost
 scikit-learn
+pytest pytest pytest-html
