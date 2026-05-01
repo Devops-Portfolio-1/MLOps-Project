@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 env:
-  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   IMAGE_REPO: diabetes-prediction-model
   IMAGE_TAG: ${{ github.run_number }}
 
@@ -34,4 +34,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ env.DOCKERHUB_USERNAME }}:${{ env.IMAGE_TAG }}
+            ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_REPO }}:${{ env.IMAGE_TAG }}
