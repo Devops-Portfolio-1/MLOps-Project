@@ -9,7 +9,7 @@ name: Build and Push Docker Image
       - '.github/workflows/dockerhub-publish.yml'
       - 'requirements.txt'
       - 'main.py'
-      - 'tests/'
+      - 'tests/test_artifact.py'
       - 'index.html'
 
 permissions:
