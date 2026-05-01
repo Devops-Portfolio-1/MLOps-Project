@@ -103,5 +103,5 @@ kubectl apply -f k8s-deploy.yml
 
 ## Credits
 
-Created by Shalindra Perera. ✨
+Created by Shalindra Perera ✨
 
