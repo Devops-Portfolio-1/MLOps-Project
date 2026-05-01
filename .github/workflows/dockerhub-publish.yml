@@ -34,4 +34,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}:${{ env.IMAGE_TAG }}
+            ${{ env.DOCKERHUB_USERNAME }}:${{ env.IMAGE_TAG }}
