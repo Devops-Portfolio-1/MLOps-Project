@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Model Training Analysis</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 24px; }
+        pre { white-space: pre-wrap; font-family: Menlo, Consolas, monospace; }
+        .content { border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Model Training Analysis</h1>
+    <div class="content">
+        <pre># Model Training Analysis
+
+## Data Summary
+Rows: 100000
+Columns: 9
+
+Missing values:
+- gender: 0
+- age: 0
+- hypertension: 0
+- heart_disease: 0
+- smoking_history: 0
+- bmi: 0
+- HbA1c_level: 0
+- blood_glucose_level: 0
+- diabetes: 0
+
+Class distribution:
+- 0 (No Diabetes): 91500
+- 1 (Diabetes): 8500
+- Positive rate: 8.50%
+
+## Preprocessing
+- Dropped gender = Other
+- Encoded gender with LabelEncoder (Female=0, Male=1)
+- Encoded smoking_history with ordinal mapping
+
+## Feature Engineering
+- Added bmi_category, age_group, risk_score, age_bmi
+
+## Feature Selection
+- MI computed on training split only (prevents leakage)
+Selected 10 features (MI &gt; 0.01):
+HbA1c_level, blood_glucose_level, risk_score, age_bmi, age, age_group, bmi_category, bmi, hypertension, smoking_history
+
+## Split Strategy
+Train: 70026 | Val: 14958 | Test: 14998
+Train positive rate: 8.50%
+Val positive rate: 8.50%
+Test positive rate: 8.50%
+
+## Resampling Strategy
+- Oversampled minority class on training set only (prevents data leakage)
+Resampled train size: 128146
+Resampled positive rate: 50.00%
+
+## Scaling
+- StandardScaler fit on training data only (prevents leakage)
+
+## 5-Fold CV Results
+| Model | Accuracy | ROC-AUC | F1 | Precision | Recall |
+| --- | --- | --- | --- | --- | --- |
+| Logistic Regression | 0.8892 | 0.9644 | 0.8898 | 0.8850 | 0.8945 |
+| Random Forest | 0.9912 | 0.9995 | 0.9912 | 0.9829 | 0.9997 |
+| XGBoost | 0.9450 | 0.9903 | 0.9459 | 0.9308 | 0.9615 |
+
+## Validation Results
+| Model | Accuracy | ROC-AUC | F1 | Precision | Recall |
+| --- | --- | --- | --- | --- | --- |
+| Logistic Regression | 0.8825 | 0.9657 | 0.5637 | 0.4120 | 0.8923 |
+| Random Forest | 0.9624 | 0.9628 | 0.7633 | 0.8221 | 0.7123 |
+| XGBoost | 0.9263 | 0.9755 | 0.6661 | 0.5416 | 0.8648 |
+
+## XGBoost Learning-Rate Sweep
+| LR | ROC-AUC | F1 |
+| --- | --- | --- |
+| 0.01 | 0.9751 | 0.6046 |
+| 0.05 | 0.9787 | 0.6312 |
+| 0.1 | 0.9793 | 0.6262 |
+| 0.3 | 0.9755 | 0.6661 |
+
+## Model Selection
+Best model by validation ROC-AUC: XGBoost
+
+## Test Set Results
+- Accuracy: 0.9255
+- ROC-AUC: 0.9742
+- F1: 0.6612
+- Precision: 0.5388
+- Recall: 0.8557
+
+### Classification Report
+```
+              precision    recall  f1-score   support
+
+ No Diabetes       0.99      0.93      0.96     13723
+    Diabetes       0.54      0.86      0.66      1275
+
+    accuracy                           0.93     14998
+   macro avg       0.76      0.89      0.81     14998
+weighted avg       0.95      0.93      0.93     14998
+
+```
+
+### Confusion Matrix
+```
+[[12789, 934], [184, 1091]]
+```
+
+## Artifact
+Saved model bundle to: best_diabetes_model.pkl</pre>
+    </div>
+</body>
+</html>

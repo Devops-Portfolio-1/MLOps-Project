@@ -13,6 +13,8 @@ This project predicts diabetes risk from patient health indicators using a noteb
 - FastAPI app uses the same preprocessing steps as the notebook
 - MLflow model registry: diabetes_best_model
 - UI available at / (index.html).
+- Scripted training: model-training.py (derived from diabetes_ml_pipeline.ipynb)
+- Reports: /reports contains model_training_analysis.md, model_training_analysis.html, model_training_metrics.json
 
 ## Quick Start
 

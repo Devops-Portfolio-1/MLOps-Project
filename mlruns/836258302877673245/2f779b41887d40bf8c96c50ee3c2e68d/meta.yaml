@@ -1,0 +1,14 @@
+artifact_uri: file:c:/Users/Shalindra/Documents/DevOps/DevOps Projects/ML Ops/mlops-project/mlruns/836258302877673245/2f779b41887d40bf8c96c50ee3c2e68d/artifacts
+end_time: 1777710131336
+entry_point_name: ''
+experiment_id: '836258302877673245'
+lifecycle_stage: active
+run_id: 2f779b41887d40bf8c96c50ee3c2e68d
+run_name: training-pipeline
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1777709997607
+status: 3
+tags: []
+user_id: Shalindra
