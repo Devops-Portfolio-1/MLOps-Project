@@ -9,7 +9,7 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY main.py index.html best_diabetes_model.pkl ./
+COPY main.py index.html best_diabetes_model.pkl app_logging.py ./
 
 EXPOSE 8001
 
