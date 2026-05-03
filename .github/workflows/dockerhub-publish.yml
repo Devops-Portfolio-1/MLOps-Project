@@ -3,7 +3,7 @@ name: mlops-pipeline
 "on":
   push:
     branches:
-      - main
+      - feat/kserve
     paths:
       - 'Dockerfile'
       - '.github/workflows/dockerhub-publish.yml'
@@ -75,17 +75,19 @@ jobs:
           tags: |
             ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
+
+# Updating the image tag in the manifest files and committing the changes back to the repository
       - name: Update k8s image tag
         run: |
           set -euo pipefail
-          sed -i "s|image: .*|image: ${IMAGE_NAME}:${IMAGE_TAG}|" k8s/deployment.yaml
+          sed -i "s|image: .*|image: ${IMAGE_NAME}:${IMAGE_TAG}|" KServe/fastapi-deployment.yaml
 
-# Updating the image tag in the manifest files and committing the changes back to the repository
+
       - name: Commit k8s image tag
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add k8s/deployment.yaml
+          git add k8s/fastapi-deployment.yaml
           git commit -m "chore: update k8s image tag to ${IMAGE_TAG}"
           git push
