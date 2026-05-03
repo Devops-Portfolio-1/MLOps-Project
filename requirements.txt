@@ -7,3 +7,4 @@ joblib
 xgboost
 scikit-learn
 pytest-html
+requests
