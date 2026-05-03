@@ -23,6 +23,7 @@ metadata:
   name: diabetes-xgboost
   annotations:
     serving.kserve.io/deploymentMode: RawDeployment
+    argocd.argoproj.io/sync-wave: "1"  # runs after job completes
 spec:
   predictor:
     minReplicas: 1

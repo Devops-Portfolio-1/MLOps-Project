@@ -25,6 +25,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: diabetes-model-copy
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"  # runs first
 spec:
   backoffLimit: 1
   ttlSecondsAfterFinished: 60
