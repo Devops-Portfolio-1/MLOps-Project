@@ -33,26 +33,26 @@ spec:
       restartPolicy: OnFailure
       initContainers:
         - name: model-writer-v1
-          image: shalindra936/diabetes-prediction-model:36
+          image: shalindra936/diabetes-prediction-model:38
           command: ["/bin/sh", "-c"]
           args:
             - |
               set -euo pipefail
               mkdir -p /mnt/models/diabetes/v1
-              cp /app/best_diabetes_model.pkl /mnt/models/diabetes/v1/model.pkl
+              cp /app/model.bst /mnt/models/diabetes/v1/model.pkl
               ls -lh /mnt/models/diabetes/v1
           volumeMounts:
             - name: model-storage
               mountPath: /mnt/models
       containers:
         - name: model-writer-v2
-          image: shalindra936/diabetes-prediction-model:35
+          image: shalindra936/diabetes-prediction-model:37
           command: ["/bin/sh", "-c"]
           args:
             - |
               set -euo pipefail
               mkdir -p /mnt/models/diabetes/v2
-              cp /app/best_diabetes_model.pkl /mnt/models/diabetes/v2/model.pkl
+              cp /app/model.bst /mnt/models/diabetes/v2/model.pkl
               ls -lh /mnt/models/diabetes/v2
           volumeMounts:
             - name: model-storage
