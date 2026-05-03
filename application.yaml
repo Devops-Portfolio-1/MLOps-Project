@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mlops-argo-kserve-application
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/Devops-Portfolio-1/MLOps-Project.git
+    targetRevision: feat/kserve
+    path: KServe
+  destination: 
+    server: https://kubernetes.default.svc
+    namespace: kserve
+
+# will create the kserve namespace if it doesn't exist and deploy the application there
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+
+# will automatically sync the application when changes are detected in the git repository, and will also automatically heal any drift from the desired state and prune resources that are no longer defined in the git repository
+    automated:
+      selfHeal: true  #when updating the application
+      prune: true # when deleting the application, it will also delete all the resources that were created by the application

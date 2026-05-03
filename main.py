@@ -6,6 +6,11 @@ import joblib
 import numpy as np
 import pandas as pd
 from pathlib import Path
+import os
+import requests
+from uuid import uuid4
+
+from app_logging import log_feedback, log_inference
 
 app = FastAPI()
 BASE_DIR = Path(__file__).resolve().parent
@@ -105,11 +110,65 @@ def read_root():
 
 @app.post("/predict")
 def predict(data: DiabetesInput):
+    request_id = str(uuid4())
+    # raw features as dict for logging
+    raw_features = pd.DataFrame([data.model_dump()])
     input_data = build_features(data)
+
+    # If KSERVE endpoint configured, forward the request
+    kserve_url = os.getenv("KSERVE_PREDICTOR_URL")
+    if kserve_url:
+        # send processed features as a list to match most predictor shapes
+        payload = {"instances": [input_data.iloc[0].tolist()]}
+        try:
+            resp = requests.post(kserve_url, json=payload, timeout=10)
+            resp.raise_for_status()
+            body = resp.json()
+
+            prediction = None
+            probability = None
+            if isinstance(body, dict) and "predictions" in body:
+                preds = body["predictions"]
+                if isinstance(preds, list) and len(preds) > 0:
+                    first = preds[0]
+                    if isinstance(first, (list, tuple)):
+                        prediction = int(first[0])
+                        if len(first) > 1:
+                            probability = float(first[1])
+                    elif isinstance(first, dict):
+                        prediction = int(first.get("prediction", first.get("pred", 0)))
+                    else:
+                        prediction = int(first)
+            elif isinstance(body, list) and len(body) > 0:
+                prediction = int(body[0])
+
+            log_inference({
+                "request_id": request_id,
+                "features": raw_features.iloc[0].to_dict(),
+                "prediction": int(prediction) if prediction is not None else None,
+                "prediction_proba": float(probability) if probability is not None else None,
+                "kserve_response": body,
+            })
+
+            response = {"request_id": request_id, "diabetic": bool(prediction)}
+            if probability is not None:
+                response["probability"] = float(probability)
+            return response
+        except Exception as e:
+            raise HTTPException(status_code=502, detail=f"KServe request failed: {e}")
+
+    # Fallback to local model
     prediction = model.predict(input_data)[0]
     probability = model.predict_proba(input_data)[0][1] if hasattr(model, "predict_proba") else None
 
-    response = {"diabetic": bool(prediction)}
+    log_inference({
+        "request_id": request_id,
+        "features": raw_features.iloc[0].to_dict(),
+        "prediction": int(prediction),
+        "prediction_proba": float(probability) if probability is not None else None,
+    })
+
+    response = {"request_id": request_id, "diabetic": bool(prediction)}
     if probability is not None:
         response["probability"] = float(probability)
     return response

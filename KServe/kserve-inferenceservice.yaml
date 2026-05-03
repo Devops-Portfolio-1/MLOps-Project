@@ -1,0 +1,14 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: diabetes-sklearn
+spec:
+  predictor:
+    minReplicas: 1
+    maxReplicas: 5
+    canaryTrafficPercent: 20
+    sklearn:
+      storageUri: pvc://diabetes-model-pvc/diabetes/v1
+    canaryPredictor:
+      sklearn:
+        storageUri: pvc://diabetes-model-pvc/diabetes/v2

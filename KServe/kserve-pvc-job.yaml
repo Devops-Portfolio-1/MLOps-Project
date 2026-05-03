@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: diabetes-model-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: standard
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: diabetes-model-copy-v1
+spec:
+  backoffLimit: 1
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: model-writer-v1
+          image: shalindra936/diabetes-prediction-model:21
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -euo pipefail
+              mkdir -p /mnt/models/diabetes/v1
+              cp /app/best_diabetes_model.pkl /mnt/models/diabetes/v1/model.pkl
+              ls -lh /mnt/models/diabetes/v1
+          volumeMounts:
+            - name: model-storage
+              mountPath: /mnt/models
+      volumes:
+        - name: model-storage
+          persistentVolumeClaim:
+            claimName: diabetes-model-pvc
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: diabetes-model-copy-v2
+spec:
+  backoffLimit: 1
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: model-writer-v2
+          image: shalindra936/diabetes-prediction-model:22
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -euo pipefail
+              mkdir -p /mnt/models/diabetes/v2
+              cp /app/best_diabetes_model.pkl /mnt/models/diabetes/v2/model.pkl
+              ls -lh /mnt/models/diabetes/v2
+          volumeMounts:
+            - name: model-storage
+              mountPath: /mnt/models
+      volumes:
+        - name: model-storage
+          persistentVolumeClaim:
+            claimName: diabetes-model-pvc
