@@ -75,7 +75,13 @@ jobs:
           tags: |
             ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
-      # Updating the image tag in the manifest files and committing the changes back to the repository
+
+# Update the k8s deployment with the new image tag
+      - name: Update k8s image tag
+        run: |
+          set -euo pipefail
+          sed -i "s|image: .*|image: ${IMAGE_NAME}:${IMAGE_TAG}|" k8s/deployment.yaml
+
       - name: Commit k8s image tag
         run: |
           set -euo pipefail
