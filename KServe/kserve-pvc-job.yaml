@@ -1,3 +1,13 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: strcls
+provisioner: linodebs.csi.linode.com
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+reclaimPolicy: Retain
+
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -7,8 +17,9 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
-  storageClassName: linode-block-storage-retain 
+      storage: 2Gi
+  storageClassName: strcls
+
 ---
 apiVersion: batch/v1
 kind: Job
