@@ -10,6 +10,9 @@ spec:
   containers:
     - name: kserve-container
       image: kserve/sklearnserver:v0.11.0
+      args:
+        - --model_name={{.Name}}
+        - --model_dir=/mnt/models
       ports:
         - containerPort: 8080
           name: http1
@@ -18,6 +21,8 @@ apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   name: diabetes-sklearn
+  annotations:
+    serving.kserve.io/deploymentMode: RawDeployment 
 spec:
   predictor:
     minReplicas: 1
