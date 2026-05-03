@@ -9,6 +9,7 @@ WORKDIR /app
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy the necessary files to the container both .pkl and .bst files
 COPY main.py index.html best_diabetes_model.pkl model.bst app_logging.py ./
 
 EXPOSE 8001
