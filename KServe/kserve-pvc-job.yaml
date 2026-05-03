@@ -39,7 +39,7 @@ spec:
             - |
               set -euo pipefail
               mkdir -p /mnt/models/diabetes/v1
-              cp /app/model.bst /mnt/models/diabetes/v1/model.pkl
+              cp /app/model.bst /mnt/models/diabetes/v1/model.bst
               ls -lh /mnt/models/diabetes/v1
           volumeMounts:
             - name: model-storage
@@ -52,7 +52,7 @@ spec:
             - |
               set -euo pipefail
               mkdir -p /mnt/models/diabetes/v2
-              cp /app/model.bst /mnt/models/diabetes/v2/model.pkl
+              cp /app/model.bst /mnt/models/diabetes/v2/model.bst
               ls -lh /mnt/models/diabetes/v2
           volumeMounts:
             - name: model-storage
