@@ -1,63 +1,63 @@
-# apiVersion: storage.k8s.io/v1
-# kind: StorageClass
-# metadata:
-#   name: strcls
-# provisioner: linodebs.csi.linode.com
-# volumeBindingMode: WaitForFirstConsumer
-# allowVolumeExpansion: true
-# reclaimPolicy: Retain
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: strcls
+provisioner: linodebs.csi.linode.com
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+reclaimPolicy: Retain
 
-# ---
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: diabetes-model-pvc
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 2Gi
-#   storageClassName: strcls
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: diabetes-model-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: strcls
 
-# ---
-# apiVersion: batch/v1
-# kind: Job
-# metadata:
-#   name: diabetes-model-copy
-# spec:
-#   backoffLimit: 1
-#   ttlSecondsAfterFinished: 60
-#   template:
-#     spec:
-#       restartPolicy: OnFailure
-#       initContainers:
-#         - name: model-writer-v1
-#           image: shalindra936/diabetes-prediction-model:38
-#           command: ["/bin/sh", "-c"]
-#           args:
-#             - |
-#               set -euo pipefail
-#               mkdir -p /mnt/models/diabetes/v1
-#               cp /app/model.bst /mnt/models/diabetes/v1/model.pkl
-#               ls -lh /mnt/models/diabetes/v1
-#           volumeMounts:
-#             - name: model-storage
-#               mountPath: /mnt/models
-#       containers:
-#         - name: model-writer-v2
-#           image: shalindra936/diabetes-prediction-model:37
-#           command: ["/bin/sh", "-c"]
-#           args:
-#             - |
-#               set -euo pipefail
-#               mkdir -p /mnt/models/diabetes/v2
-#               cp /app/model.bst /mnt/models/diabetes/v2/model.pkl
-#               ls -lh /mnt/models/diabetes/v2
-#           volumeMounts:
-#             - name: model-storage
-#               mountPath: /mnt/models
-#       volumes:
-#         - name: model-storage
-#           persistentVolumeClaim:
-#             claimName: diabetes-model-pvc
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: diabetes-model-copy
+spec:
+  backoffLimit: 1
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: OnFailure
+      initContainers:
+        - name: model-writer-v1
+          image: shalindra936/diabetes-prediction-model:38
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -euo pipefail
+              mkdir -p /mnt/models/diabetes/v1
+              cp /app/model.bst /mnt/models/diabetes/v1/model.pkl
+              ls -lh /mnt/models/diabetes/v1
+          volumeMounts:
+            - name: model-storage
+              mountPath: /mnt/models
+      containers:
+        - name: model-writer-v2
+          image: shalindra936/diabetes-prediction-model:37
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -euo pipefail
+              mkdir -p /mnt/models/diabetes/v2
+              cp /app/model.bst /mnt/models/diabetes/v2/model.pkl
+              ls -lh /mnt/models/diabetes/v2
+          volumeMounts:
+            - name: model-storage
+              mountPath: /mnt/models
+      volumes:
+        - name: model-storage
+          persistentVolumeClaim:
+            claimName: diabetes-model-pvc
