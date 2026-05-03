@@ -11,7 +11,7 @@ spec:
     - name: kserve-container
       image: kserve/xgbserver:v0.11.0
       args:
-        - --model_name={{.Name}}
+        - --model_name=diabetes-xgboost
         - --model_dir=/mnt/models
       ports:
         - containerPort: 8080
