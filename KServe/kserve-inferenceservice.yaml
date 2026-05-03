@@ -1,3 +1,19 @@
+apiVersion: serving.kserve.io/v1alpha1
+kind: ServingRuntime
+metadata:
+  name: kserve-sklearnserver
+spec:
+  supportedModelFormats:
+    - name: sklearn
+      version: "1"
+      autoSelect: true
+  containers:
+    - name: kserve-container
+      image: kserve/sklearnserver:v0.11.0
+      ports:
+        - containerPort: 8080
+          name: http1
+---
 apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
@@ -6,7 +22,17 @@ spec:
   predictor:
     minReplicas: 1
     maxReplicas: 5
-    canaryTrafficPercent: 20
-    sklearn:
-      storageUri: pvc://diabetes-model-pvc/diabetes/v1 # canary traffic 20%
-  transformer: null
+    model:
+      modelFormat:
+        name: sklearn
+        version: "1"
+      storageUri: pvc://diabetes-model-pvc/diabetes/v1  # Production (80%)
+  canaryTrafficPercent: 20
+  canaryPredictor:
+    minReplicas: 1
+    maxReplicas: 2
+    model:
+      modelFormat:
+        name: sklearn
+        version: "1"
+      storageUri: pvc://diabetes-model-pvc/diabetes/v2  # Canary (20%)
