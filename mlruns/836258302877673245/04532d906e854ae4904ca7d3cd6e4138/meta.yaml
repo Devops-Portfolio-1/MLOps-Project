@@ -1,0 +1,14 @@
+artifact_uri: file:c:/Users/Shalindra/Documents/DevOps/DevOps Projects/ML Ops/mlops-project/mlruns/836258302877673245/04532d906e854ae4904ca7d3cd6e4138/artifacts
+end_time: 1777813073648
+entry_point_name: ''
+experiment_id: '836258302877673245'
+lifecycle_stage: active
+run_id: 04532d906e854ae4904ca7d3cd6e4138
+run_name: Logistic Regression
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1777813055689
+status: 4
+tags: []
+user_id: Shalindra

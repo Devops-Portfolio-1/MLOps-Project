@@ -1,0 +1,78 @@
+{
+  "cv_results": {
+    "Logistic Regression": {
+      "Accuracy": 0.8891654686008721,
+      "ROC-AUC": 0.9644434305933618,
+      "F1": 0.8897556178042025,
+      "Precision": 0.8850388738296807,
+      "Recall": 0.8945265593907269
+    },
+    "Random Forest": {
+      "Accuracy": 0.9911585160361787,
+      "ROC-AUC": 0.9994904103349158,
+      "F1": 0.9912336295807824,
+      "Precision": 0.9829220338921629,
+      "Recall": 0.999687854820807
+    },
+    "XGBoost": {
+      "Accuracy": 0.9450314162773475,
+      "ROC-AUC": 0.9903128641965528,
+      "F1": 0.9459239491978406,
+      "Precision": 0.9308343915891578,
+      "Recall": 0.9615126354496317
+    }
+  },
+  "val_results": {
+    "Logistic Regression": {
+      "Accuracy": 0.8825377724294692,
+      "ROC-AUC": 0.9656904762889497,
+      "F1": 0.5636950583560963,
+      "Precision": 0.41197822141560797,
+      "Recall": 0.8922955974842768
+    },
+    "Random Forest": {
+      "Accuracy": 0.9624281321032223,
+      "ROC-AUC": 0.9627748183195974,
+      "F1": 0.7632687447346251,
+      "Precision": 0.822141560798548,
+      "Recall": 0.7122641509433962
+    },
+    "XGBoost": {
+      "Accuracy": 0.9262601952132639,
+      "ROC-AUC": 0.9754895743435196,
+      "F1": 0.6660611565243718,
+      "Precision": 0.5416051206302314,
+      "Recall": 0.8647798742138365
+    }
+  },
+  "test_results": {
+    "Accuracy": 0.9254567275636751,
+    "ROC-AUC": 0.97422723837039,
+    "F1": 0.6612121212121213,
+    "Precision": 0.5387654320987655,
+    "Recall": 0.855686274509804
+  },
+  "confusion_matrix": [
+    [
+      12789,
+      934
+    ],
+    [
+      184,
+      1091
+    ]
+  ],
+  "selected_features": [
+    "HbA1c_level",
+    "blood_glucose_level",
+    "risk_score",
+    "age_bmi",
+    "age",
+    "age_group",
+    "bmi_category",
+    "bmi",
+    "hypertension",
+    "smoking_history"
+  ],
+  "best_model": "XGBoost"
+}

@@ -47,7 +47,12 @@ def parse_args():
     parser.add_argument(
         "--output-model",
         default="best_diabetes_model.pkl",
-        help="Output model artifact path",
+        help="Output model bundle artifact path (used by FastAPI)",
+    )
+    parser.add_argument(
+        "--output-bst",
+        default="model.bst",
+        help="Output XGBoost .bst model path (used by KServe xgbserver)",
     )
     parser.add_argument(
         "--report",
@@ -127,12 +132,12 @@ def make_markdown_table(rows, headers):
 
 
 def slugify(value):
-        return value.lower().replace(" ", "_").replace("-", "_")
+    return value.lower().replace(" ", "_").replace("-", "_")
 
 
 def write_html_report(markdown_text, output_path):
-        escaped = html.escape(markdown_text)
-        html_content = f"""<!DOCTYPE html>
+    escaped = html.escape(markdown_text)
+    html_content = f"""<!DOCTYPE html>
 <html>
 <head>
     <meta charset=\"utf-8\" />
@@ -150,8 +155,8 @@ def write_html_report(markdown_text, output_path):
     </div>
 </body>
 </html>"""
-        Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-        Path(output_path).write_text(html_content, encoding="utf-8")
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
+    Path(output_path).write_text(html_content, encoding="utf-8")
 
 
 def main():
@@ -509,18 +514,36 @@ def main():
     report_lines.append(str(cm))
     report_lines.append("```")
 
+    # -------------------------------------------------------------------------
+    # Artifact saving
+    # -------------------------------------------------------------------------
+
+    # 1. Save full inference bundle (model + scaler + features) for FastAPI
     inference_bundle = {
         "model": best_model,
         "scaler": scaler,
         "selected_features": selected_features,
         "feature_columns": list(X_train.columns),
     }
-
     joblib.dump(inference_bundle, args.output_model)
-
     log("")
-    log("## Artifact")
-    log(f"Saved model bundle to: {args.output_model}")
+    log("## Artifacts")
+    log(f"- Saved inference bundle (FastAPI) to: {args.output_model}")
+
+    # 2. Save XGBoost model as .bst for KServe xgbserver
+    if best_model_name == "XGBoost":
+        bst_path = Path(args.output_bst)
+        bst_path.parent.mkdir(parents=True, exist_ok=True)
+        best_model.save_model(str(bst_path))
+        log(f"- Saved XGBoost .bst model (KServe) to: {bst_path}")
+        if mlflow_enabled:
+            mlflow.log_artifact(str(bst_path))
+        print(f"XGBoost .bst model saved to {bst_path}")
+    else:
+        print(f"WARNING: Best model is {best_model_name}, not XGBoost. Skipping .bst export.")
+        log(f"- WARNING: Best model is {best_model_name}. No .bst file exported.")
+
+    # -------------------------------------------------------------------------
 
     metrics_payload = {
         "cv_results": cv_results,

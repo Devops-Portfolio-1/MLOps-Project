@@ -1,0 +1,10 @@
+artifact_location: file:c:/Users/Shalindra/Documents/DevOps/DevOps Projects/ML Ops/mlops-project/mlruns/836258302877673245/models/m-bfecf9aff8c84bbe9f30cbe1fb1565fe/artifacts
+creation_timestamp: 1777813257366
+experiment_id: '836258302877673245'
+last_updated_timestamp: 1777813268954
+model_id: m-bfecf9aff8c84bbe9f30cbe1fb1565fe
+model_type: null
+name: model
+source_run_id: 0b1305dc74d4402aaee59e86b574e624
+status: 2
+status_message: null

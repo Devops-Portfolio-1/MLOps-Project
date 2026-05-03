@@ -1,0 +1,14 @@
+artifact_uri: file:c:/Users/Shalindra/Documents/DevOps/DevOps Projects/ML Ops/mlops-project/mlruns/836258302877673245/02a32e03f3dd4e01b9486dba9d08c877/artifacts
+end_time: 1777813254721
+entry_point_name: ''
+experiment_id: '836258302877673245'
+lifecycle_stage: active
+run_id: 02a32e03f3dd4e01b9486dba9d08c877
+run_name: Random Forest
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1777813238850
+status: 3
+tags: []
+user_id: Shalindra
