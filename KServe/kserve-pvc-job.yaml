@@ -33,7 +33,7 @@ spec:
       restartPolicy: OnFailure
       initContainers:
         - name: model-writer-v1
-          image: shalindra936/diabetes-prediction-model:33
+          image: shalindra936/diabetes-prediction-model:36
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -46,7 +46,7 @@ spec:
               mountPath: /mnt/models
       containers:
         - name: model-writer-v2
-          image: shalindra936/diabetes-prediction-model:34
+          image: shalindra936/diabetes-prediction-model:35
           command: ["/bin/sh", "-c"]
           args:
             - |
