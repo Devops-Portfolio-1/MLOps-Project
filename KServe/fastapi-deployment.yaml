@@ -22,7 +22,7 @@ spec:
             - containerPort: 8001
           env:
             - name: KSERVE_PREDICTOR_URL
-              value: "http://diabetes-sklearn-predictor.default.svc.cluster.local/v1/models/diabetes-sklearn:predict"
+              value: "http://diabetes-sklearn-predictor.kserve.svc.cluster.local/v1/models/diabetes-sklearn:predict"
           readinessProbe:
             httpGet:
               path: /

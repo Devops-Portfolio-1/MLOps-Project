@@ -8,21 +8,21 @@ spec:
   resources:
     requests:
       storage: 1Gi
-  storageClassName: standard
+  storageClassName: linode-block-storage-retain 
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: diabetes-model-copy-v1
+  name: diabetes-model-copy
 spec:
   backoffLimit: 1
   ttlSecondsAfterFinished: 60
   template:
     spec:
       restartPolicy: OnFailure
-      containers:
+      initContainers:
         - name: model-writer-v1
-          image: shalindra936/diabetes-prediction-model:21
+          image: shalindra936/diabetes-prediction-model:33
           command: ["/bin/sh", "-c"]
           args:
             - |
@@ -33,24 +33,9 @@ spec:
           volumeMounts:
             - name: model-storage
               mountPath: /mnt/models
-      volumes:
-        - name: model-storage
-          persistentVolumeClaim:
-            claimName: diabetes-model-pvc
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: diabetes-model-copy-v2
-spec:
-  backoffLimit: 1
-  ttlSecondsAfterFinished: 60
-  template:
-    spec:
-      restartPolicy: OnFailure
       containers:
         - name: model-writer-v2
-          image: shalindra936/diabetes-prediction-model:22
+          image: shalindra936/diabetes-prediction-model:34
           command: ["/bin/sh", "-c"]
           args:
             - |

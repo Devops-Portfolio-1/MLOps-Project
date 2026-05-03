@@ -8,7 +8,5 @@ spec:
     maxReplicas: 5
     canaryTrafficPercent: 20
     sklearn:
-      storageUri: pvc://diabetes-model-pvc/diabetes/v1
-    canaryPredictor:
-      sklearn:
-        storageUri: pvc://diabetes-model-pvc/diabetes/v2
+      storageUri: pvc://diabetes-model-pvc/diabetes/v1 # canary traffic 20%
+  transformer: null
