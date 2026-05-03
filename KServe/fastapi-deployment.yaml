@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: fastapi
-          image: shalindra936/diabetes-prediction-model:35
+          image: shalindra936/diabetes-prediction-model:36
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8001
