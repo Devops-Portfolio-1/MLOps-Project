@@ -160,7 +160,8 @@ python scripts/drift_check.py \
   --threshold 0.2 \
   --report drift/drift_report.json
 ```
-
+## ArgoCD
+![ArgoCD UI](images/image-5.png)
 ## Credits
 
 Created by Shalindra Perera ✨
