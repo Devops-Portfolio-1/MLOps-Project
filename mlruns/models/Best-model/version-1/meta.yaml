@@ -1,0 +1,16 @@
+creation_timestamp: 1777904010501
+current_stage: None
+deployment_job_state: null
+description: ''
+last_updated_timestamp: 1777904010501
+model_id: m-7f8fd9413cfc4e5f8fb1f1613db9f58b
+name: Best-model
+run_id: beead8832dda42b9bfd32f646cd77f41
+run_link: ''
+source: models:/m-7f8fd9413cfc4e5f8fb1f1613db9f58b
+status: READY
+status_message: null
+storage_location: file:c:/Users/Shalindra/Documents/DevOps/DevOps Projects/ML Ops/mlops-project/mlruns/836258302877673245/models/m-7f8fd9413cfc4e5f8fb1f1613db9f58b/artifacts
+user_id: null
+version: 1
+workspace: default

@@ -2,9 +2,15 @@
 
 This project predicts diabetes risk from patient health indicators using a notebook-driven ML pipeline and a FastAPI inference service. It includes EDA, feature engineering, model comparison, MLflow tracking, and deployment artifacts.
 
+![Application UI](images/image-2.png)
+
+# Pipeline Structure
+![pipeline structure](images/Application-record.gif)
+
+
 ## Dataset
 
-- Source file: [diabetes_prediction_dataset.csv](https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset)
+- Source Dataset: [diabetes_prediction_dataset.csv](https://www.kaggle.com/datasets/iammustafatz/diabetes-prediction-dataset)
 
 ## Current Project Status
 
@@ -12,13 +18,13 @@ This project predicts diabetes risk from patient health indicators using a noteb
 - Best model bundle: best_diabetes_model.pkl (model + scaler + selected features)
 - FastAPI app uses the same preprocessing steps as the notebook
 - MLflow model registry: diabetes_best_model
-- UI available at / (index.html).
+- UI available at index.html.
 - Scripted training: model-training.py (derived from diabetes_ml_pipeline.ipynb)
 - Reports: /reports contains model_training_analysis.md, model_training_analysis.html, model_training_metrics.json
 
 ## Quick Start
 
-### 1. Clone the Repo L
+### 1. Clone the Repo 
 
 ```bash
 git clone https://github.com/Devops-Portfolio-1/MLOps-Project.git
@@ -43,7 +49,7 @@ python -m venv .mlops
 pip install -r requirements.txt
 ```
 
-### 4. Run the Notebook Pipeline
+### 4. Run the Notebook Pipeline/model-training script
 
 Open diabetes_ml_pipeline.ipynb and run all cells. This will:
 
@@ -84,11 +90,15 @@ Response example:
 }
 ```
 
-## MLflow UI
+## MLflow Experiment Tracking
 
 ```bash
 mlflow ui --backend-store-uri mlruns
 ```
+![MLflow UI](images/training-script.png)
+
+## Model Registry
+![MLflow UI](images/image-4.png)
 
 ## Dockerize the API
 
@@ -109,7 +119,7 @@ The drift monitoring setup adds a scheduled workflow and two helper scripts to d
 
 ### Workflow: drift-check.yml
 
-Runs daily (and on manual dispatch) to compute drift against a baseline and upload a JSON report artifact.
+Runs daily (or on manual dispatch) to compute drift against a baseline and upload a JSON report artifact.
 
 Key points:
 - Reads recent data from `diabetes_prediction_dataset.csv`.
