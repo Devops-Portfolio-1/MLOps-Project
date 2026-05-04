@@ -22,6 +22,9 @@ This project predicts diabetes risk from patient health indicators using a noteb
 - Scripted training: model-training.py (derived from diabetes_ml_pipeline.ipynb)
 - Reports: /reports contains model_training_analysis.md, model_training_analysis.html, model_training_metrics.json
 
+![feature-engineering](images/image-6.png)
+![CV](images/image-7.png)
+
 ## Quick Start
 
 ### 1. Clone the Repo 
