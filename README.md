@@ -150,6 +150,11 @@ python scripts/drift_check.py \
   --threshold 0.2 \
   --report drift/drift_report.json
 ```
+
+## Argocd and K8 Resources
+![ArgoCD and K8s Resources](images/image-1.png)
+
+![ArgoCD Application](images/image-2.png)
 ## Credits
 
 Created by Shalindra Perera ✨
